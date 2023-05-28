@@ -1,4 +1,3 @@
-// reducers.js
 import { ADD_TODO, TOGGLE_TODO } from './actions';
 
 const initialState = {

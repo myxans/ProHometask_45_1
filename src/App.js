@@ -1,4 +1,3 @@
-// App.js
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { addTodo, toggleTodo } from './actions';
