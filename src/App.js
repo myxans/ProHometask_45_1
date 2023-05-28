@@ -1,25 +1,51 @@
-import logo from './logo.svg';
-import './App.css';
+// App.js
+import React, { useState } from 'react';
+import { connect } from 'react-redux';
+import { addTodo, toggleTodo } from './actions';
 
-function App() {
+const App = ({ todos, addTodo, toggleTodo }) => {
+  const [newTodo, setNewTodo] = useState('');
+
+  const handleAddTodo = () => {
+    if (newTodo.trim() !== '') {
+      addTodo(newTodo);
+      setNewTodo('');
+    }
+  };
+
+  const handleToggleTodo = (index) => {
+    toggleTodo(index);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>Todo List</h1>
+      <ul>
+        {todos.map((todo, index) => (
+          <li
+            key={index}
+            style={{ textDecoration: todo.completed ? 'line-through' : 'none' }}
+            onClick={() => handleToggleTodo(index)}
+          >
+            {todo.text}
+          </li>
+        ))}
+      </ul>
+      <div>
+        <input type="text" value={newTodo} onChange={(e) => setNewTodo(e.target.value)} />
+        <button onClick={handleAddTodo}>Add Todo</button>
+      </div>
     </div>
   );
-}
+};
 
-export default App;
+const mapStateToProps = (state) => ({
+  todos: state.todos,
+});
+
+const mapDispatchToProps = {
+  addTodo,
+  toggleTodo,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
